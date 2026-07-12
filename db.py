@@ -1,0 +1,343 @@
+import sqlite3
+import os
+
+
+def init_db():
+    conn = get_conn()
+    c = conn.cursor()
+
+    # =========================
+    # USERS (LOGIN STUDI)
+    # =========================
+    c.execute("""
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        studio_id TEXT UNIQUE NOT NULL,
+        doctor_name TEXT NOT NULL
+    )
+    """)
+
+    # =========================
+    # REQUESTS (PAZIENTI)
+    # =========================
+    c.execute("""
+    CREATE TABLE IF NOT EXISTS requests (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        patient_name TEXT,
+        patient_surname TEXT,
+        patient_age INTEGER,
+        birth_date TEXT,
+        tax_code TEXT,
+        birth_place TEXT,
+        address TEXT,
+        phone TEXT,
+        email TEXT,
+        symptoms TEXT,
+        anamnesis TEXT,
+        ai_report TEXT,
+        stato TEXT,
+        created_at TEXT,
+        studio_id TEXT,
+        pdf_path TEXT,
+        risposta_medico TEXT,
+        consenso_privacy INTEGER,
+        data_consenso TEXT
+    )
+    """)
+
+    conn.commit()
+    conn.close()
+
+DB = "database.db"
+
+def login(username, password):
+
+    conn = get_conn()
+    c = conn.cursor()
+
+    c.execute("""
+    SELECT
+        id,
+        username,
+        studio_id,
+        doctor_name
+    FROM users
+    WHERE username=? AND password=?
+    """, (username, password))
+
+    row = c.fetchone()
+    conn.close()
+    return row
+
+def get_conn():
+    return sqlite3.connect(DB)
+
+
+import sqlite3
+import json
+from datetime import datetime
+
+def insert_request(
+    patient_data,
+    studio_id,
+    answers,
+    ai_report=None,
+    stato="nuovo",
+    pdf_path=None,
+    consenso_privacy=False,
+    data_consenso=None
+):
+    conn = get_conn()
+    c = conn.cursor()
+
+    nome = patient_data.get("nome", "")
+    cognome = patient_data.get("cognome", "")
+    eta = patient_data.get("eta", "")
+    data_nascita = patient_data.get("data_nascita", "")
+    codice_fiscale = patient_data.get("codice_fiscale", "")
+    luogo_nascita = patient_data.get("luogo_nascita", "")
+    residenza = patient_data.get("residenza", "")
+    telefono = patient_data.get("telefono", "")
+    email = patient_data.get("email", "")
+
+    if ai_report is None:
+        ai_report = {}
+
+    if isinstance(answers, dict):
+        answers_json = json.dumps(answers, ensure_ascii=False)
+    else:
+        answers_json = str(answers)
+
+    if isinstance(ai_report, dict):
+        ai_report_json = json.dumps(ai_report, ensure_ascii=False)
+    else:
+        ai_report_json = str(ai_report)
+
+    symptoms = ""
+    if isinstance(answers, dict):
+        root = answers.get("root", {})
+        if isinstance(root, dict):
+            symptoms = root.get("answer", "")
+        else:
+            symptoms = str(root)
+
+    c.execute("""
+    INSERT INTO requests (
+        patient_name,
+        patient_surname,
+        patient_age,
+        birth_date,
+        tax_code,
+        birth_place,
+        address,
+        phone,
+        email,
+        symptoms,
+        anamnesis,
+        ai_report,
+        stato,
+        created_at,
+        studio_id,
+        pdf_path,
+        consenso_privacy,
+        data_consenso
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        nome,
+        cognome,
+        eta,
+        data_nascita,
+        codice_fiscale,
+        luogo_nascita,
+        residenza,
+        telefono,
+        email,
+        symptoms,
+        answers_json,
+        ai_report_json,
+        stato,
+        datetime.now().isoformat(),
+        studio_id,
+        pdf_path,
+        1 if consenso_privacy else 0,
+        data_consenso
+    ))
+
+    conn.commit()
+    conn.close()
+
+
+def get_requests(studio_id):
+
+    conn = get_conn()
+    c = conn.cursor()
+
+    c.execute("""
+    SELECT
+        id,
+        patient_name,
+        patient_surname,
+        patient_age,
+        symptoms,
+        anamnesis,
+        ai_report,
+        created_at,
+        pdf_path
+    FROM requests
+    WHERE studio_id=?
+    ORDER BY id DESC
+    """, (studio_id,))
+
+    data = c.fetchall()
+    conn.close()
+    return data
+
+
+def update_status(request_id, stato):
+    conn = get_conn()
+    c = conn.cursor()
+
+    c.execute("""
+    UPDATE requests
+    SET stato=?
+    WHERE id=?
+    """, (stato, request_id))
+
+    conn.commit()
+    conn.close()
+
+
+def add_medical_response(request_id, risposta):
+    conn = get_conn()
+    c = conn.cursor()
+
+    c.execute("""
+    UPDATE requests
+    SET risposta_medico=?
+    WHERE id=?
+    """, (risposta, request_id))
+
+    conn.commit()
+    conn.close()
+
+def get_patients():
+
+    conn = get_conn()
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM patients")
+
+    data = c.fetchall()
+
+    conn.close()
+
+    return data
+
+
+def get_patient_by_user(user_id):
+
+    conn = get_conn()
+    c = conn.cursor()
+
+    c.execute("""
+    SELECT *
+    FROM patients
+    WHERE user_id=?
+    """, (user_id,))
+
+    row = c.fetchone()
+
+    conn.close()
+
+    return row
+
+def save_history(patient_id, request_id, sintesi, diagnosi, red_flags, priorita):
+
+    conn = get_conn()
+    c = conn.cursor()
+
+    c.execute("""
+    INSERT INTO clinical_history (
+        patient_id,
+        request_id,
+        sintesi,
+        diagnosi,
+        red_flags,
+        priorita
+    )
+    VALUES (?, ?, ?, ?, ?, ?)
+    """, (
+        patient_id,
+        request_id,
+        sintesi,
+        diagnosi,
+        red_flags,
+        priorita
+    ))
+
+    conn.commit()
+    conn.close()
+
+def get_history(patient_id):
+    conn = get_conn()
+    c = conn.cursor()
+
+    c.execute("""
+    SELECT *
+    FROM clinical_history
+    WHERE patient_id=?
+    ORDER BY created_at DESC
+    """, (patient_id,))
+
+    data = c.fetchall()
+    conn.close()
+
+    return data
+
+def get_doctor_by_studio(studio_id):
+    conn = get_conn()
+    c = conn.cursor()
+
+    c.execute("""
+    SELECT doctor_name
+    FROM users
+    WHERE studio_id=?
+    """, (studio_id,))
+
+    row = c.fetchone()
+    conn.close()
+
+    return row[0] if row else None
+
+
+def create_user(username, password, studio_id, doctor_name):
+    conn = get_conn()
+    c = conn.cursor()
+
+    c.execute("""
+    INSERT INTO users (username, password, studio_id, doctor_name)
+    VALUES (?, ?, ?, ?)
+    """, (username, password, studio_id, doctor_name))
+
+    conn.commit()
+    conn.close()
+
+def get_doctor_by_studio(studio_id):
+    conn = get_conn()
+    c = conn.cursor()
+
+    studio_id = studio_id.strip()
+
+    c.execute("""
+    SELECT doctor_name
+    FROM users
+    WHERE TRIM(studio_id)=?
+    """, (studio_id,))
+
+    row = c.fetchone()
+    conn.close()
+
+    return row[0] if row else None

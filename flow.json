@@ -1,0 +1,391 @@
+{
+  "root": {
+    "question": "Qual è il motivo principale della visita?",
+    "type": "radio",
+  "options": [
+  "Dolore",
+  "Gonfiore",
+  "Trauma",
+  "Dente rotto",
+  "Otturazione o corona saltata",
+  "Sanguinamento gengivale",
+  "Gengive o denti mobili",
+  "Problema con impianto",
+  "Problema con apparecchio ortodontico",
+  "Dente mancante / Protesi",
+  "Estetica",
+  "Controllo",
+  "Altro"
+]
+  },
+"pain_1": {
+  "question": "Da quanto tempo hai dolore?",
+  "type": "text",
+  "next": "pain_2"
+},
+
+"pain_2": {
+  "question": "Il dolore è continuo o intermittente?",
+  "type": "radio",
+  "options": ["Continuo", "Intermittente"],
+  "next": "pain_3"
+},
+
+"pain_3": {
+  "question": "Il dolore aumenta con caldo o freddo?",
+  "type": "radio",
+  "options": ["Freddo", "Caldo", "Entrambi", "Nessuno dei due"],
+  "next": "pain_4"
+},
+
+"pain_4": {
+  "question": "Il dolore aumenta durante la notte?",
+  "type": "radio",
+  "options": ["Sì", "No"],
+  "next": "pain_5"
+},
+
+"pain_5": {
+  "question": "In quale zona della bocca senti il dolore? (sopra/sotto, destra/sinistra, dente se possibile)",
+  "type": "text",
+  "next": "pain_6"
+},
+"pain_6": {
+  "question": "Quanto è forte il dolore da 0 a 10?",
+  "type": "slider",
+  "next": "pain_7"
+},
+
+"pain_7": {
+  "question": "Hai gonfiore associato?",
+  "type": "radio",
+  "options": ["Sì", "No"],
+  "next": "pain_8"
+},
+
+"pain_8": {
+  "question": "Hai preso antidolorifici? Hanno funzionato?",
+  "type": "radio",
+  "options": [
+    "Non ho preso nulla",
+    "Sì, efficaci",
+    "Sì, poco efficaci",
+    "No, nessun effetto"
+  ],
+  "next": "pain_9"
+},
+
+"pain_9": {
+  "question": "Hai febbre o sensazione di infezione (pus, cattivo sapore)?",
+  "type": "radio",
+  "options": ["No", "Sì, febbre", "Sì, pus/cattivo sapore"],
+  "next": "med_1"
+},
+
+  "paro_1": {
+  "question": "Hai sanguinamento gengivale spontaneo o durante lo spazzolamento?",
+  "type": "radio",
+  "options": ["No", "Sì, durante lo spazzolamento", "Sì, spontaneo"],
+  "next": "paro_2"
+},
+  "paro_2": {
+  "question": "Hai notato che i denti si muovono?",
+  "type": "radio",
+  "options": ["No", "Sì, leggermente", "Sì, in modo evidente"],
+  "next": "paro_3"
+},
+  "paro_3": {
+  "question": "Le gengive sono gonfie o arrossate?",
+  "type": "radio",
+  "options": ["No", "Sì, leggermente", "Sì, molto"],
+  "next": "paro_4"
+},
+  "paro_4": {
+  "question": "Hai alito cattivo persistente?",
+  "type": "radio",
+  "options": ["No", "Sì"],
+  "next": "paro_5"
+},
+  "paro_5": {
+  "question": "Da quanto tempo noti questi sintomi gengivali?",
+  "type": "text",
+  "next": "med_1"
+},
+
+  "sw_1": {
+  "question": "Da quanto tempo è presente il gonfiore?",
+  "type": "text",
+  "next": "sw_2"
+},
+
+"sw_2": {
+  "question": "Il gonfiore è aumentato nel tempo?",
+  "type": "radio",
+  "options": ["Sì", "No"],
+  "next": "sw_3"
+},
+
+"sw_3": {
+  "question": "Hai dolore associato al gonfiore?",
+  "type": "radio",
+  "options": ["No", "Lieve", "Forte"],
+  "next": "sw_4"
+},
+
+"sw_4": {
+  "question": "Hai febbre o segni di infezione?",
+  "type": "radio",
+  "options": ["No", "Sì"],
+  "next": "sw_5"
+},
+
+"sw_5": {
+  "question": "Hai già assunto farmaci o fatto qualcosa per il gonfiore?",
+  "type": "text",
+  "next": "med_1"
+},
+
+  "tr_1": {
+  "question": "Come è avvenuto il problema al dente?",
+  "type": "radio",
+  "options": [
+    "Masticando / cibo duro",
+    "Trauma (caduta, urto)",
+    "Non ricordo"
+  ],
+  "next": "tr_2"
+},
+  "tr_2": {
+  "question": "Quale zona è stata colpita? (es. sopra/sotto, destra/sinistra, dente specifico se possibile)",
+  "type": "text",
+  "next": "tr_3"
+},
+  "tr_3": {
+  "question": "Il dente è mobile o si è spostato dalla sua posizione?",
+  "type": "radio",
+  "options": ["No", "Sì, leggermente mobile", "Sì, molto mobile / spostato"],
+  "next": "tr_4"
+},
+  "tr_4": {
+  "question": "Il dente è scheggiato, fratturato o uscito completamente?",
+  "type": "radio",
+  "options": [
+    "No danni visibili",
+    "Scheggiatura",
+    "Frattura",
+    "Dente completamente uscito"
+  ],
+  "next": "tr_5"
+},
+  "tr_5": {
+  "question": "C'è sanguinamento o gonfiore nella zona?",
+  "type": "radio",
+  "options": ["No", "Sanguinamento", "Gonfiore", "Entrambi"],
+  "next": "med_1"
+},
+  "tr_masticazione": {
+  "question": "Hai dolore durante la masticazione?",
+  "type": "radio",
+  "options": ["Sì", "No"],
+  "next": "tr_1"
+},
+
+  "ortho_1": {
+  "question": "Hai dolore o fastidio legato all'apparecchio?",
+  "type": "radio",
+  "options": ["No", "Sì, lieve", "Sì, forte"],
+  "next": "ortho_2"
+},
+
+"ortho_2": {
+  "question": "Hai fili che pungono o bracket staccati?",
+  "type": "radio",
+  "options": ["No", "Sì"],
+  "next": "ortho_3"
+},
+
+"ortho_3": {
+  "question": "L'apparecchio è mobile o si è rotto?",
+  "type": "radio",
+  "options": ["No", "Sì"],
+  "next": "med_1"
+},
+
+  "est_1": {
+  "question": "Che tipo di trattamento estetico ti interessa?",
+  "type": "radio",
+  "options": ["Sbiancamento", "Faccette", "Corone", "Altro"],
+  "next": "est_2"
+},
+
+"est_2": {
+  "question": "Hai sensibilità o problemi estetici specifici da segnalare?",
+  "type": "text",
+  "next": "med_1"
+},
+
+  "imp_1": {
+  "question": "Hai dolore o fastidio attorno all'impianto?",
+  "type": "radio",
+  "options": ["No", "Sì, lieve", "Sì, forte"],
+  "next": "imp_2"
+},
+  "imp_2": {
+  "question": "Hai sanguinamento o gonfiore intorno all'impianto?",
+  "type": "radio",
+  "options": ["No", "Sanguinamento", "Gonfiore", "Entrambi"],
+  "next": "imp_3"
+},
+  "imp_3": {
+  "question": "L'impianto ti sembra mobile o instabile?",
+  "type": "radio",
+  "options": ["No", "Leggermente", "Molto / si muove chiaramente"],
+  "next": "imp_4"
+},
+  "imp_4": {
+  "question": "Hai notato cattivo sapore o pus nella zona dell'impianto?",
+  "type": "radio",
+  "options": ["No", "Sì"],
+  "next": "med_1"
+},
+
+  "prost_1": {
+  "question": "Hai già una protesi o un dispositivo protesico?",
+  "type": "radio",
+  "options": [
+    "No, non ho mai avuto una protesi",
+    "Sì, protesi fissa",
+    "Sì, protesi mobile",
+    "Sì, non so che tipo"
+  ],
+  "next": "prost_2"
+},
+
+"prost_2": {
+  "question": "Che tipo di problema hai?",
+  "type": "radio",
+  "options": [
+    "Manca un dente",
+    "La protesi si è rotta",
+    "La protesi si muove",
+    "La protesi fa male",
+    "Vorrei sostituire un dente mancante"
+  ],
+  "next": "prost_3"
+},
+
+"prost_3": {
+  "question": "Dove si trova il problema? (specifica se possibile zona e dente)",
+  "type": "text",
+  "next": "prost_4"
+},
+
+"prost_4": {
+  "question": "Hai ancora la radice del dente?",
+  "type": "radio",
+  "options": [
+    "Sì",
+    "No",
+    "Non lo so"
+  ],
+  "next": "prost_5"
+},
+
+"prost_5": {
+  "question": "Da quanto tempo manca il dente?",
+  "type": "radio",
+  "options": [
+    "Da pochi giorni",
+    "Da alcuni mesi",
+    "Da anni",
+    "Non ricordo"
+  ],
+  "next": "prost_6"
+},
+
+"prost_6": {
+  "question": "Il dente mancante è visibile quando sorridi?",
+  "type": "radio",
+  "options": [
+    "Sì, è una zona estetica",
+    "No, è un dente posteriore"
+  ],
+  "next": "med_1"
+},
+
+  "med_1": {
+  "question": "Hai allergie a farmaci, anestetici o altre sostanze?",
+  "type": "text",
+  "next": "med_2"
+},
+
+"med_2": {
+  "question": "Assumi farmaci in modo regolare? Se sì, quali?",
+  "type": "text",
+  "next": "med_3"
+},
+
+"med_3": {
+  "question": "Hai una di queste patologie? (diabete, cuore, pressione alta, osteoporosi, immunodeficienza)",
+  "type": "radio",
+  "options": ["No", "Sì"],
+  "next": "med_4"
+},
+
+"med_4": {
+  "question": "Se hai risposto sì, specifica la patologia:",
+  "type": "text",
+  "next": "med_5"
+},
+
+"med_5": {
+  "question": "Hai subito interventi chirurgici importanti?",
+  "type": "radio",
+  "options": ["No", "Sì"],
+  "next": "med_6"
+},
+
+"med_6": {
+  "question": "Se sì, quali interventi?",
+  "type": "text",
+  "next": "med_7"
+},
+
+"med_7": {
+  "question": "Fumi?",
+  "type": "radio",
+  "options": ["No", "Ex fumatore", "Sì"],
+  "next": "med_8"
+},
+
+"med_8": {
+  "question": "Sei in terapia anticoagulante (es. cardioaspirina, Coumadin, Eliquis)?",
+  "type": "radio",
+  "options": ["No", "Sì", "Non so"],
+  "next": "med_9"
+},
+
+"med_9": {
+  "question": "Assumi farmaci per osteoporosi (bifosfonati o simili)?",
+  "type": "radio",
+  "options": ["No", "Sì", "Non so"],
+  "next": "med_10"
+},
+
+"med_10": {
+  "question": "Quando è stata la tua ultima visita dal dentista?",
+  "type": "radio",
+  "options": [
+    "Meno di 6 mesi",
+    "6-12 mesi",
+    "Più di 1 anno",
+    "Non ricordo"
+  ],
+  "next": "med_11"
+},
+"med_11": {
+  "question": "C'è qualcosa che vuoi comunicare al dentista?",
+  "type": "text",
+  "next": "completed"
+}
+}
