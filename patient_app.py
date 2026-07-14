@@ -69,7 +69,7 @@ st.markdown(f"""
     text-align:center;
     font-size:clamp(24px, 6vw, 46px);
     font-weight:800;
-    color:white;
+    color:#2563EB;
     margin-top:10px;
     margin-bottom:5px;
 ">
