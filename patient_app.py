@@ -67,13 +67,14 @@ if not doctor_name:
 st.markdown(f"""
 <div style="
     text-align:center;
-    font-size:clamp(28px, 6vw, 48px);
-    font-weight:800;
+    font-family:'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+    font-size:clamp(40px, 8vw, 64px);
+    font-weight:700;
     color:#14532D;
-    letter-spacing:0.6px;
-    margin-top:12px;
-    margin-bottom:8px;
-    text-shadow:0px 1px 2px rgba(0,0,0,0.08); 
+    letter-spacing:1px;
+    margin-top:15px;
+    margin-bottom:15px;
+    text-shadow:0px 2px 4px rgba(0,0,0,0.12);
 ">
     {doctor_name}
 </div>
