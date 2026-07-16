@@ -202,7 +202,7 @@ if node == "patient_info":
         font-weight:600;
         margin-top:20px;
         margin-bottom:10px;
-        color:white;
+        color:1F3B30;
     ">
         Inizia questionario
     </div>
