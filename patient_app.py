@@ -67,11 +67,13 @@ if not doctor_name:
 st.markdown(f"""
 <div style="
     text-align:center;
-    font-size:clamp(24px, 6vw, 46px);
+    font-size:clamp(28px, 6vw, 48px);
     font-weight:800;
-    color:#2563EB;
-    margin-top:10px;
-    margin-bottom:5px;
+    color:#14532D;
+    letter-spacing:0.6px;
+    margin-top:12px;
+    margin-bottom:8px;
+    text-shadow:0px 1px 2px rgba(0,0,0,0.08); 
 ">
     {doctor_name}
 </div>
@@ -80,9 +82,9 @@ st.markdown(f"""
 st.markdown("""
 <div style="
     text-align:center;
-    font-size:18px;
-    font-weight:600;
-    color:#60a5fa;
+    font-size:20px;
+    font-weight:700;
+    color:#4CAF88;
     margin-bottom:25px;
 ">
     NovaDent
