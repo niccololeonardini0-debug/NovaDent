@@ -52,9 +52,29 @@ studio_nome = st.session_state.get("doctor_name", "")
 
 st.markdown(
     f"""
-    <h1 style='text-align:center; font-size:34px; font-weight:800;'>
-    NovaDent • {studio_nome}
-    </h1>
+    <div style="text-align:center; margin-top:10px;">
+
+        <div style="
+            font-size:20px;
+            font-weight:700;
+            color:#4CAF88;
+            letter-spacing:0.5px;
+            margin-bottom:8px;
+        ">
+            NovaDent
+        </div>
+
+        <div style="
+            font-size:clamp(28px, 6vw, 48px);
+            font-weight:800;
+            color:#14532D;
+            letter-spacing:0.6px;
+            text-shadow:0px 1px 2px rgba(0,0,0,0.08);
+        ">
+            {studio_nome}
+        </div>
+
+    </div>
     """,
     unsafe_allow_html=True
 )
