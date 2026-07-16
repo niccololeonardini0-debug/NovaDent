@@ -202,7 +202,7 @@ if node == "patient_info":
         font-weight:600;
         margin-top:20px;
         margin-bottom:10px;
-        color:1F3B30;
+        color:#1F3B30;
     ">
         Inizia questionario
     </div>
@@ -229,18 +229,30 @@ if node == "patient_info":
 
     data_nascita = st.text_input(
         "Data di nascita (GG/MM/AAAA)",
-        placeholder="es. 07/04/1994"
+        placeholder="es. 01/01/2001"
     )
 
     codice_fiscale = st.text_input("Codice fiscale")
 
-    luogo_nascita = st.text_input("Luogo di nascita")
+    luogo_nascita = st.text_input(
+        "Luogo di nascita",
+        placeholder="es. Firenze"
+    )
 
-    residenza = st.text_input("Residenza")
+    residenza = st.text_input(
+        "Residenza",
+        placeholder="es. Via Roma 25, Firenze"
+    )
 
-    telefono = st.text_input("Telefono")
+    telefono = st.text_input(
+        "Telefono",
+        placeholder="es. 333 1234567"
+    )
 
-    email = st.text_input("Email")
+    email = st.text_input(
+        "Email",
+        placeholder="es. nome.cognome@email.it"
+    )
 
     if st.button("Inizia questionario"):
 
