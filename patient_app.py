@@ -236,7 +236,7 @@ if node == "patient_info":
 
     luogo_nascita = st.text_input(
         "Luogo di nascita",
-        placeholder="es. Firenze"
+        placeholder="es. Firenze, Italia"
     )
 
     residenza = st.text_input(
