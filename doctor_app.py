@@ -52,26 +52,13 @@ studio_nome = st.session_state.get("doctor_name", "")
 
 st.markdown(
     f"""
-    <div style="text-align:center; padding:20px 0 10px 0;">
+    <h3 style="text-align:center; color:#4CAF88;">
+        NovaDent
+    </h3>
 
-        <div style="
-            font-size:22px;
-            font-weight:700;
-            color:#4CAF88;
-            margin-bottom:6px;
-        ">
-            NovaDent
-        </div>
-
-        <div style="
-            font-size:38px;
-            font-weight:800;
-            color:#14532D;
-        ">
-            {studio_nome}
-        </div>
-
-    </div>
+    <h1 style="text-align:center; color:#14532D;">
+        {studio_nome}
+    </h1>
     """,
     unsafe_allow_html=True
 )
@@ -85,8 +72,7 @@ st.divider()
 # =========================
 
 requests = get_requests(st.session_state.studio_id)
-st.write("DEBUG STUDIO:", st.session_state.studio_id)
-st.write("DEBUG RICHIESTE:", requests)
+
 
 if not requests:
     st.info("Nessuna richiesta presente")
