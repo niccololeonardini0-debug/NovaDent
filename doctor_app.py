@@ -122,8 +122,6 @@ requests = sorted(
 # LISTA PAZIENTI
 # =========================
 
-st.write("")
-
 
 for r in requests:
 

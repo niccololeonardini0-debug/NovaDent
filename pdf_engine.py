@@ -139,7 +139,8 @@ def genera_pdf(
     problema,
     sintesi,
     diagnosi,
-    priorita
+    priorita,
+    photos=None
 ):
     pdf = NovaDentPDF(
         studio_name=doctor_name
@@ -337,6 +338,35 @@ def genera_pdf(
 
                 numero += 1
 
+    # FOTO PAZIENTE
+
+    if photos:
+
+        section_title(
+            pdf,
+            "DOCUMENTAZIONE FOTOGRAFICA"
+        )
+
+        pdf.set_font(
+            "Arial",
+            "",
+            11
+        )
+
+        for foto in photos:
+
+            try:
+
+                pdf.image(
+                    foto,
+                    x=20,
+                    w=70
+                )
+
+                pdf.ln(5)
+
+            except Exception as e:
+                print("Errore caricamento foto PDF:", e)
 
 
     nome_file = (

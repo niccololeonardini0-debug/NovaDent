@@ -4,3 +4,4 @@ database.db
 backups/
 *.pyc
 back_up.py
+uploads/

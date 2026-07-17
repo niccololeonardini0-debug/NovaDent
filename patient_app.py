@@ -5,6 +5,7 @@ from db import insert_request, init_db
 from triage_engine import calcola_priorita
 from pdf_engine import genera_pdf
 from core import next_node
+import os
 
 st.set_page_config(layout="wide")
 
@@ -312,6 +313,41 @@ elif node == "completed":
 
     st.success("Questionario completato")
 
+    st.markdown("### 📷 Fotografie (opzionale)")
+
+    uploaded_photos = st.file_uploader(
+        "Carica fotografie utili per il dentista",
+        type=["jpg", "jpeg", "png"],
+        accept_multiple_files=True
+    )
+
+    if uploaded_photos:
+
+        if len(uploaded_photos) > 4:
+            st.warning("Puoi caricare massimo 4 fotografie.")
+            st.stop()
+
+        photo_folder = "uploads/photos"
+
+        os.makedirs(photo_folder, exist_ok=True)
+
+        saved_photos = []
+
+        for i, photo in enumerate(uploaded_photos):
+            file_path = os.path.join(
+                photo_folder,
+                f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{i}_{photo.name}"
+            )
+
+            with open(file_path, "wb") as f:
+                f.write(photo.getbuffer())
+
+            saved_photos.append(file_path)
+
+        st.session_state["photos"] = saved_photos
+
+        st.success(f"{len(saved_photos)} fotografie caricate")
+
     consenso = st.checkbox(
         "Accetto il trattamento dei dati personali e sanitari per la gestione della richiesta odontoiatrica."
     )
@@ -345,7 +381,8 @@ elif node == "completed":
             problema=answers.get("root", {}).get("answer", "Non specificato"),
             sintesi=answers,
             diagnosi=ipotesi,
-            priorita=priorita
+            priorita=priorita,
+            photos = st.session_state.get("photos", [])
         )
 
         print("answers:", type(answers), answers)
