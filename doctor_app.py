@@ -34,7 +34,7 @@ if not st.session_state.doctor_logged:
         if user:
             st.session_state.doctor_logged = True
             st.session_state.username = username
-            st.session_state.studio_id = user[2]
+            st.session_state.studio_id = user[2].strip("/")
             st.session_state.doctor_name = user[3]
             st.rerun()
 
@@ -52,24 +52,21 @@ studio_nome = st.session_state.get("doctor_name", "")
 
 st.markdown(
     f"""
-    <div style="text-align:center; margin-top:10px;">
+    <div style="text-align:center; padding:20px 0 10px 0;">
 
         <div style="
-            font-size:20px;
+            font-size:22px;
             font-weight:700;
             color:#4CAF88;
-            letter-spacing:0.5px;
-            margin-bottom:8px;
+            margin-bottom:6px;
         ">
             NovaDent
         </div>
 
         <div style="
-            font-size:clamp(28px, 6vw, 48px);
+            font-size:38px;
             font-weight:800;
             color:#14532D;
-            letter-spacing:0.6px;
-            text-shadow:0px 1px 2px rgba(0,0,0,0.08);
         ">
             {studio_nome}
         </div>
@@ -80,7 +77,7 @@ st.markdown(
 )
 
 st.caption("Sistema di triage odontoiatrico intelligente")
-st.markdown("---")
+st.divider()
 
 
 # =========================
