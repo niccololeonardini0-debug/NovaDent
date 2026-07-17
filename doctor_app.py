@@ -85,6 +85,8 @@ st.divider()
 # =========================
 
 requests = get_requests(st.session_state.studio_id)
+st.write("DEBUG STUDIO:", st.session_state.studio_id)
+st.write("DEBUG RICHIESTE:", requests)
 
 if not requests:
     st.info("Nessuna richiesta presente")
