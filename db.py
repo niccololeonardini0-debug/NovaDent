@@ -1,6 +1,8 @@
 import sqlite3
 import os
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB = os.path.join(BASE_DIR, "database.db")
 
 def init_db():
     conn = get_conn()
@@ -50,7 +52,7 @@ def init_db():
     conn.commit()
     conn.close()
 
-DB = "database.db"
+
 
 def login(username, password):
 
@@ -89,6 +91,8 @@ def insert_request(
     consenso_privacy=False,
     data_consenso=None
 ):
+    print("ENTRATO IN INSERT_REQUEST")
+
     conn = get_conn()
     c = conn.cursor()
 
@@ -166,6 +170,8 @@ def insert_request(
         data_consenso
     ))
 
+    print("SALVATO:", nome, cognome, studio_id, pdf_path)
+
     conn.commit()
     conn.close()
 
@@ -223,12 +229,26 @@ def add_medical_response(request_id, risposta):
     conn.commit()
     conn.close()
 
-def get_patients():
+def get_patients(studio_id):
 
     conn = get_conn()
     c = conn.cursor()
 
-    c.execute("SELECT * FROM patients")
+    c.execute("""
+    SELECT
+        id,
+        patient_name,
+        patient_surname,
+        patient_age,
+        symptoms,
+        anamnesis,
+        ai_report,
+        created_at,
+        pdf_path
+    FROM requests
+    WHERE studio_id=?
+    ORDER BY id DESC
+    """, (studio_id,))
 
     data = c.fetchall()
 
@@ -236,23 +256,6 @@ def get_patients():
 
     return data
 
-
-def get_patient_by_user(user_id):
-
-    conn = get_conn()
-    c = conn.cursor()
-
-    c.execute("""
-    SELECT *
-    FROM patients
-    WHERE user_id=?
-    """, (user_id,))
-
-    row = c.fetchone()
-
-    conn.close()
-
-    return row
 
 def save_history(patient_id, request_id, sintesi, diagnosi, red_flags, priorita):
 

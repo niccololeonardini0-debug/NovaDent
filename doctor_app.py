@@ -73,7 +73,6 @@ st.divider()
 
 requests = get_requests(st.session_state.studio_id)
 
-
 if not requests:
     st.info("Nessuna richiesta presente")
     st.stop()
