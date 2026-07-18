@@ -86,7 +86,7 @@ st.markdown("""
     text-align:center;
     font-size:20px;
     font-weight:700;
-    color:#4CAF88;
+    color:#167D5A;
     margin-bottom:25px;
 ">
     NovaDent
@@ -178,7 +178,9 @@ header{
 
 
 st.markdown("""
-<div class="novadent-footer">NovaDent</div>
+<div class="novadent-footer">
+NovaDent • Digital Dental Workflow
+</div>
 """, unsafe_allow_html=True)
 # =========================
 # HEADER
@@ -194,29 +196,37 @@ node = st.session_state.node
 # =========================
 if node == "patient_info":
 
-    st.markdown("### 🏥 Dati paziente")
-
     st.markdown("""
     <div style="
         text-align:center;
-        font-size:20px;
-        font-weight:600;
+        font-size:26px;
+        font-weight:700;
         margin-top:20px;
-        margin-bottom:10px;
-        color:#1F3B30;
+        color:#14532D;
     ">
-        Inizia questionario
+    Benvenuto
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown("""
     <div style="
         text-align:center;
-        font-size:14px;
-        color:#9ca3af;
+        font-size:17px;
+        margin-top:15px;
+        margin-bottom:10px;
+    ">
+    Per consentire al medico di conoscere al meglio la sua situazione clinica,
+    le chiediamo di compilare un breve questionario.
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div style="
+        text-align:center;
+        color:#6b7280;
         margin-bottom:30px;
     ">
-        Compila i dati da inviare al dottore
+    Tempo di compilazione: circa 5 minuti.
     </div>
     """, unsafe_allow_html=True)
 
@@ -255,7 +265,7 @@ if node == "patient_info":
         placeholder="es. nome.cognome@email.it"
     )
 
-    if st.button("Inizia questionario"):
+    if st.button("Inizia il questionario"):
 
         if (
                 nome.strip() == ""
@@ -269,6 +279,15 @@ if node == "patient_info":
             st.error("Compila tutti i campi.")
             st.stop()
 
+            if "@" not in email or "." not in email:
+                st.error("Inserisci un indirizzo email valido.")
+                st.stop()
+
+            telefono_pulito = telefono.replace(" ", "")
+
+            if not telefono_pulito.isdigit():
+                st.error("Inserisci un numero di telefono valido.")
+                st.stop()
         try:
             data_nascita_obj = datetime.strptime(
                 data_nascita,
@@ -348,8 +367,20 @@ elif node == "completed":
 
         st.success(f"{len(saved_photos)} fotografie caricate")
 
+    st.markdown("---")
+
+    st.markdown("""
+    ### Informativa Privacy
+
+    I dati personali e sanitari inseriti nel presente questionario saranno trasmessi esclusivamente allo studio odontoiatrico presso il quale è stata richiesta la visita e utilizzati per finalità di assistenza sanitaria.
+
+    NovaDent fornisce esclusivamente la piattaforma informatica utilizzata per la raccolta e la gestione dei dati.
+
+    Proseguendo dichiari di aver letto l'informativa e autorizzi l'invio dei dati allo studio.
+    """)
+
     consenso = st.checkbox(
-        "Accetto il trattamento dei dati personali e sanitari per la gestione della richiesta odontoiatrica."
+        "Ho letto l'informativa privacy e autorizzo il trattamento dei miei dati."
     )
 
     if not consenso:
@@ -412,6 +443,16 @@ elif node == "completed":
 elif node in FLOW:
 
     flow = FLOW[node]
+
+    answered = len(st.session_state.answers)
+
+    progress = min(answered / 10, 1.0)
+
+    st.progress(progress)
+
+    st.caption("Compilazione questionario clinico")
+
+    st.write("")
 
     st.markdown(f"<div class='question'>{flow['question']}</div>", unsafe_allow_html=True)
 
