@@ -58,14 +58,24 @@ def next_node(node, answer):
             return "prost_1"
 
 
+
         elif "estetica" in answer:
 
             return "est_1"
 
-        elif "controllo" in answer:
+
+        elif "pulizia" in answer:
+
             return "med_1"
 
+
+        elif "controllo" in answer:
+
+            return "med_1"
+
+
         else:
+
             return "med_1"
 
     # 🔵 LOGICA GENERICA (FLOW GUIDATO SOLO DA JSON)

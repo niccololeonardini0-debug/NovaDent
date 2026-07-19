@@ -444,11 +444,15 @@ elif node in FLOW:
 
     flow = FLOW[node]
 
+    total_questions = len(FLOW)
+
     answered = len(st.session_state.answers)
 
-    progress = min(answered / 10, 1.0)
+    total_questions = 15
 
-    st.progress(progress)
+    progress = answered / total_questions
+
+    st.progress(min(progress, 1.0))
 
     st.caption("Compilazione questionario clinico")
 
@@ -460,10 +464,52 @@ elif node in FLOW:
     if flow.get("type") == "radio":
         answer = st.radio("", flow.get("options", []), key=node)
 
+
     elif flow.get("type") == "slider":
+
         answer = st.slider("", 0, 10, 5, key=node)
 
+
+    elif flow.get("type") == "group":
+
+        answer = {}
+
+        for field in flow.get("fields", []):
+
+            st.markdown(
+
+                f"<div class='question'>{field['question']}</div>",
+
+                unsafe_allow_html=True
+
+            )
+
+            if field["type"] == "radio":
+
+                answer[field["question"]] = st.radio(
+
+                    "",
+
+                    field.get("options", []),
+
+                    key=f"{node}_{field['question']}"
+
+                )
+
+
+            elif field["type"] == "text":
+
+                answer[field["question"]] = st.text_input(
+
+                    "",
+
+                    key=f"{node}_{field['question']}"
+
+                )
+
+
     else:
+
         answer = st.text_input("", key=node, placeholder=flow["question"])
 
     # =========================
@@ -482,13 +528,16 @@ elif node in FLOW:
     # =========================
     # BUTTON ACTION
     # =========================
-
     if st.button(button_label):
 
         st.session_state.answers[node] = {
             "question": flow.get("question"),
             "answer": answer
         }
+
+        # sicurezza: evita vecchi collegamenti rimasti nel flow
+        if next_n == "med_6":
+            next_n = "med_12"
 
         st.session_state.node = next_n
         st.rerun()

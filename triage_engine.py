@@ -90,13 +90,16 @@ def calcola_priorita(answers):
             ipotesi = "Gengivite / valutazione parodontale"
 
     # -------------------------
-    # ESTETICA / CONTROLLO
+    # ESTETICA / CONTROLLO / IGIENE
     # -------------------------
     if "estetica" in flat_text:
         ipotesi = "Valutazione estetica"
 
     if "controllo" in flat_text:
         ipotesi = "Visita di controllo"
+
+    if "pulizia dei denti" in flat_text:
+        ipotesi = "Seduta di igiene orale professionale"
 
     # -------------------------
     # PRIORITA

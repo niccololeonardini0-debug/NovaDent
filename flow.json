@@ -14,6 +14,7 @@
   "Problema con apparecchio ortodontico",
   "Dente mancante / Protesi",
   "Estetica",
+  "Pulizia dei denti",
   "Controllo",
   "Altro"
 ]
@@ -314,65 +315,97 @@
 },
 
   "med_1": {
-  "question": "Hai allergie a farmaci, anestetici o altre sostanze?",
-  "type": "text",
+  "question": "Allergie",
+  "type": "group",
+  "fields": [
+    {
+      "question": "Hai allergie a farmaci, anestetici o altre sostanze?",
+      "type": "radio",
+      "options": ["No", "Sì"]
+    },
+    {
+      "question": "Se sì, quali allergie hai?",
+      "type": "text"
+    }
+  ],
   "next": "med_2"
 },
 
 "med_2": {
-  "question": "Assumi farmaci in modo regolare? Se sì, quali?",
-  "type": "text",
-  "next": "med_3"
-},
-
-"med_3": {
-  "question": "Hai una di queste patologie? (diabete, cuore, pressione alta, osteoporosi, immunodeficienza)",
-  "type": "radio",
-  "options": ["No", "Sì"],
-  "next": "med_4"
-},
-
-"med_4": {
-  "question": "Se hai risposto sì, specifica la patologia:",
-  "type": "text",
+  "question": "Farmaci",
+  "type": "group",
+  "fields": [
+    {
+      "question": "Assumi farmaci in modo regolare?",
+      "type": "radio",
+      "options": ["No", "Sì"]
+    },
+    {
+      "question": "Se sì, quali farmaci assumi?",
+      "type": "text"
+    }
+  ],
   "next": "med_5"
 },
 
 "med_5": {
-  "question": "Hai subito interventi chirurgici importanti?",
-  "type": "radio",
-  "options": ["No", "Sì"],
-  "next": "med_6"
+  "question": "Patologie e condizioni di salute",
+  "type": "group",
+  "fields": [
+    {
+      "question": "Hai patologie metaboliche? (es. diabete, problemi tiroidei, disturbi del metabolismo)",
+      "type": "text"
+    },
+    {
+      "question": "Hai patologie cardiovascolari? (es. ipertensione, aritmie, problemi cardiaci, disturbi della coagulazione)",
+      "type": "text"
+    },
+    {
+      "question": "Hai patologie autoimmuni o problemi del sistema immunitario?",
+      "type": "text"
+    },
+    {
+      "question": "Hai altre patologie o condizioni importanti di salute da comunicare al dentista?",
+      "type": "text"
+    }
+  ],
+  "next": "med_12"
 },
 
-"med_6": {
-  "question": "Se sì, quali interventi?",
-  "type": "text",
-  "next": "med_7"
-},
-
-"med_7": {
+"med_12": {
   "question": "Fumi?",
   "type": "radio",
-  "options": ["No", "Ex fumatore", "Sì"],
-  "next": "med_8"
+  "options": [
+    "No",
+    "Ex fumatore",
+    "Sì"
+  ],
+  "next": "med_13"
 },
 
-"med_8": {
+"med_13": {
   "question": "Sei in terapia anticoagulante (es. cardioaspirina, Coumadin, Eliquis)?",
   "type": "radio",
-  "options": ["No", "Sì", "Non so"],
-  "next": "med_9"
+  "options": [
+    "No",
+    "Sì",
+    "Non so"
+  ],
+  "next": "med_14"
 },
 
-"med_9": {
+"med_14": {
   "question": "Assumi farmaci per osteoporosi (bifosfonati o simili)?",
   "type": "radio",
-  "options": ["No", "Sì", "Non so"],
-  "next": "med_10"
+  "options": [
+    "No",
+    "Sì",
+    "Non so"
+  ],
+  "next": "med_15"
 },
 
-"med_10": {
+"med_15": {
   "question": "Quando è stata la tua ultima visita dal dentista?",
   "type": "radio",
   "options": [
@@ -381,9 +414,10 @@
     "Più di 1 anno",
     "Non ricordo"
   ],
-  "next": "med_11"
+  "next": "med_16"
 },
-"med_11": {
+
+"med_16": {
   "question": "C'è qualcosa che vuoi comunicare al dentista?",
   "type": "text",
   "next": "completed"
