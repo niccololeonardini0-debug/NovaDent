@@ -444,15 +444,11 @@ elif node in FLOW:
 
     flow = FLOW[node]
 
-    total_questions = len(FLOW)
-
     answered = len(st.session_state.answers)
 
-    total_questions = 15
+    total_questions = 13
 
-    progress = answered / total_questions
-
-    st.progress(min(progress, 1.0))
+    progress = min(answered / total_questions, 1)
 
     st.caption("Compilazione questionario clinico")
 

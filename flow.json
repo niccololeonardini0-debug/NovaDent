@@ -1,7 +1,7 @@
 {
   "root": {
-    "question": "Qual è il motivo principale della visita?",
-    "type": "radio",
+  "question": "Quali sono i motivi principali della visita? (puoi selezionare più risposte)",
+  "type": "radio",
   "options": [
   "Dolore",
   "Gonfiore",

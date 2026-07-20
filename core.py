@@ -18,7 +18,10 @@ for node, data in FLOW.items():
 
 def next_node(node, answer):
 
-    answer = str(answer).strip().lower()
+    if isinstance(answer, list):
+        answer = " ".join(answer).lower()
+    else:
+        answer = str(answer).strip().lower()
 
     # ROOT (solo qui logica clinica iniziale)
     if node == "root":
