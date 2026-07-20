@@ -1,5 +1,7 @@
 import sqlite3
 import os
+import streamlit as st
+import psycopg2
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB = os.path.join(BASE_DIR, "database.db")
@@ -66,7 +68,7 @@ def login(username, password):
         studio_id,
         doctor_name
     FROM users
-    WHERE username=? AND password=?
+    WHERE username=%s AND password=%s
     """, (username, password))
 
     row = c.fetchone()
@@ -74,7 +76,10 @@ def login(username, password):
     return row
 
 def get_conn():
-    return sqlite3.connect(DB)
+
+    return psycopg2.connect(
+        st.secrets["DATABASE_URL"]
+    )
 
 
 import sqlite3
@@ -148,7 +153,7 @@ def insert_request(
         consenso_privacy,
         data_consenso
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """, (
         nome,
         cognome,
@@ -193,7 +198,7 @@ def get_requests(studio_id):
         created_at,
         pdf_path
     FROM requests
-    WHERE studio_id=?
+    WHERE studio_id=%s
     ORDER BY id DESC
     """, (studio_id,))
 
@@ -208,8 +213,8 @@ def update_status(request_id, stato):
 
     c.execute("""
     UPDATE requests
-    SET stato=?
-    WHERE id=?
+    SET stato=%s
+    WHERE id=%s
     """, (stato, request_id))
 
     conn.commit()
@@ -222,8 +227,8 @@ def add_medical_response(request_id, risposta):
 
     c.execute("""
     UPDATE requests
-    SET risposta_medico=?
-    WHERE id=?
+    SET risposta_medico=%s
+    WHERE id=%s
     """, (risposta, request_id))
 
     conn.commit()
@@ -246,7 +251,7 @@ def get_patients(studio_id):
         created_at,
         pdf_path
     FROM requests
-    WHERE studio_id=?
+    WHERE studio_id=%s
     ORDER BY id DESC
     """, (studio_id,))
 
@@ -271,7 +276,7 @@ def save_history(patient_id, request_id, sintesi, diagnosi, red_flags, priorita)
         red_flags,
         priorita
     )
-    VALUES (?, ?, ?, ?, ?, ?)
+    VALUES (%s, %s, %s, %s, %s, %s)
     """, (
         patient_id,
         request_id,
@@ -291,7 +296,7 @@ def get_history(patient_id):
     c.execute("""
     SELECT *
     FROM clinical_history
-    WHERE patient_id=?
+    WHERE patient_id=%s
     ORDER BY created_at DESC
     """, (patient_id,))
 
@@ -307,7 +312,7 @@ def get_doctor_by_studio(studio_id):
     c.execute("""
     SELECT doctor_name
     FROM users
-    WHERE studio_id=?
+    WHERE studio_id=%s
     """, (studio_id,))
 
     row = c.fetchone()
@@ -322,7 +327,7 @@ def create_user(username, password, studio_id, doctor_name):
 
     c.execute("""
     INSERT INTO users (username, password, studio_id, doctor_name)
-    VALUES (?, ?, ?, ?)
+    VALUES (%s, %s, %s, %s)
     """, (username, password, studio_id, doctor_name))
 
     conn.commit()
@@ -337,7 +342,7 @@ def get_doctor_by_studio(studio_id):
     c.execute("""
     SELECT doctor_name
     FROM users
-    WHERE TRIM(studio_id)=?
+    WHERE TRIM(studio_id)=%s
     """, (studio_id,))
 
     row = c.fetchone()
