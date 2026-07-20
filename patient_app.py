@@ -535,9 +535,8 @@ elif node in FLOW:
             "answer": answer
         }
 
-        # sicurezza: evita vecchi collegamenti rimasti nel flow
-        if next_n == "med_6":
-            next_n = "med_12"
+        if next_n not in FLOW and next_n != "completed":
+            next_n = "med_5"
 
         st.session_state.node = next_n
         st.rerun()
