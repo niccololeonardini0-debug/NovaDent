@@ -1,6 +1,4 @@
-from db import get_conn, init_db
-
-init_db()
+from db import get_conn
 
 USERS = [
 
@@ -40,9 +38,10 @@ for user in USERS:
     username, password, studio_id, doctor_name = user
 
     c.execute("""
-    INSERT OR IGNORE INTO users
+    INSERT INTO users
     (username,password,studio_id,doctor_name)
-    VALUES (?,?,?,?)
+    VALUES (%s,%s,%s,%s)
+    ON CONFLICT (username) DO NOTHING
     """, user)
 
     patient_link = f"{PATIENT_URL}/?studio={studio_id}"

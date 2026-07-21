@@ -386,8 +386,8 @@ def genera_pdf(
         f"{now.strftime('%Y%m%d%H%M%S')}.pdf"
     )
 
-
     pdf.output(path)
 
+    print("PDF CREATO:", path)
 
     return path

@@ -416,11 +416,6 @@ elif node == "completed":
             photos = st.session_state.get("photos", [])
         )
 
-        print("answers:", type(answers), answers)
-        print("ai_report:", type(ai_report), ai_report)
-        print("pdf_path:", type(pdf_path), pdf_path)
-
-
         insert_request(
             patient,
             studio_id,

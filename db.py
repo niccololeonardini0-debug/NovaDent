@@ -96,7 +96,6 @@ def insert_request(
     consenso_privacy=False,
     data_consenso=None
 ):
-    print("ENTRATO IN INSERT_REQUEST")
 
     conn = get_conn()
     c = conn.cursor()
@@ -174,8 +173,6 @@ def insert_request(
         1 if consenso_privacy else 0,
         data_consenso
     ))
-
-    print("SALVATO:", nome, cognome, studio_id, pdf_path)
 
     conn.commit()
     conn.close()
