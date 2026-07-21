@@ -9,7 +9,7 @@ import os
 
 st.set_page_config(layout="wide")
 
-init_db()
+#init_db()
 
 # =========================
 # STUDIO DA URL (compatibile e stabile)
@@ -420,6 +420,9 @@ elif node == "completed":
         print("ai_report:", type(ai_report), ai_report)
         print("pdf_path:", type(pdf_path), pdf_path)
 
+        print("STUDIO_ID:", studio_id)
+        print("PRIMA DI INSERT_REQUEST")
+        st.write("DEBUG: prima insert_request")
 
         insert_request(
             patient,
@@ -430,6 +433,8 @@ elif node == "completed":
             consenso_privacy=True,
             data_consenso=datetime.now().isoformat()
         )
+
+        st.write("DEBUG: dopo insert_request")
 
         st.session_state.pdf_path = pdf_path
         st.session_state.saved = True
@@ -449,6 +454,8 @@ elif node in FLOW:
     total_questions = 13
 
     progress = min(answered / total_questions, 1)
+
+    st.progress(progress)
 
     st.caption("Compilazione questionario clinico")
 

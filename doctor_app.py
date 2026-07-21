@@ -3,7 +3,7 @@ from db import login, get_requests, init_db
 import json
 from datetime import datetime
 
-init_db()
+#init_db()
 
 st.set_page_config(page_title="NovaDent Doctor", layout="wide")
 
