@@ -426,12 +426,10 @@ elif node == "completed":
             data_consenso=datetime.now().isoformat()
         )
 
-
-        st.session_state.pdf_path = pdf_path
         st.session_state.saved = True
 
-    with open(st.session_state.pdf_path, "rb") as f:
-        st.download_button("⬇️ Scarica PDF", f, file_name="referto_odonto.pdf")
+        st.success("Questionario inviato correttamente al dottore.")
+        st.info("Il medico riceverà la documentazione per la valutazione.")
 
 # =========================
 # FLOW ENGINE
