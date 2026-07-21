@@ -420,9 +420,6 @@ elif node == "completed":
         print("ai_report:", type(ai_report), ai_report)
         print("pdf_path:", type(pdf_path), pdf_path)
 
-        print("STUDIO_ID:", studio_id)
-        print("PRIMA DI INSERT_REQUEST")
-        st.write("DEBUG: prima insert_request")
 
         insert_request(
             patient,
@@ -434,7 +431,6 @@ elif node == "completed":
             data_consenso=datetime.now().isoformat()
         )
 
-        st.write("DEBUG: dopo insert_request")
 
         st.session_state.pdf_path = pdf_path
         st.session_state.saved = True
@@ -451,7 +447,7 @@ elif node in FLOW:
 
     answered = len(st.session_state.answers)
 
-    total_questions = 13
+    total_questions = 11
 
     progress = min(answered / total_questions, 1)
 
