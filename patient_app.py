@@ -42,6 +42,99 @@ st.session_state["studio_id"] = studio_id
 with open("flow.json", "r", encoding="utf-8") as f:
     FLOW = json.load(f)
 
+PROBLEM_MAP = {
+    "Dolore": [
+        "pain_1",
+        "pain_2",
+        "pain_3",
+        "pain_4",
+        "pain_5",
+        "pain_6",
+        "pain_7",
+        "pain_8",
+        "pain_9"
+    ],
+
+    "Gonfiore": [
+        "sw_1",
+        "sw_2",
+        "sw_3",
+        "sw_4",
+        "sw_5"
+    ],
+
+    "Trauma": [
+        "tr_1",
+        "tr_2",
+        "tr_3",
+        "tr_4",
+        "tr_5"
+    ],
+
+    "Dente rotto": [
+        "tr_1",
+        "tr_2",
+        "tr_3",
+        "tr_4",
+        "tr_5"
+    ],
+
+    "Sanguinamento gengivale": [
+        "paro_1",
+        "paro_2",
+        "paro_3",
+        "paro_4",
+        "paro_5"
+    ],
+
+    "Gengive o denti mobili": [
+        "paro_1",
+        "paro_2",
+        "paro_3",
+        "paro_4",
+        "paro_5"
+    ],
+
+    "Problema con impianto": [
+        "imp_1",
+        "imp_2",
+        "imp_3",
+        "imp_4"
+    ],
+
+    "Problema con apparecchio ortodontico": [
+        "ortho_1",
+        "ortho_2",
+        "ortho_3"
+    ],
+
+    "Dente mancante / Protesi": [
+        "prost_1",
+        "prost_2",
+        "prost_3",
+        "prost_4",
+        "prost_5",
+        "prost_6"
+    ],
+
+    "Estetica": [
+        "est_1",
+        "est_2"
+    ],
+
+    "Pulizia dei denti": [
+        "med_15"
+    ],
+
+    "Controllo": [
+        "med_15"
+    ],
+
+    "Altro": [
+        "med_16"
+    ]
+}
+
 def is_last_node(node_id):
     next_n = next_node(node_id, None)
     return next_n in ["completed", None, "", node_id]
@@ -57,6 +150,11 @@ if "answers" not in st.session_state:
 if "patient_data" not in st.session_state:
     st.session_state.patient_data = {}
 
+if "question_path" not in st.session_state:
+    st.session_state.question_path = []
+# reset vecchio widget root dopo passaggio radio -> multiselect
+if "root" in st.session_state and not isinstance(st.session_state.root, list):
+    del st.session_state.root
 
 from db import get_doctor_by_studio
 
@@ -438,13 +536,22 @@ elif node in FLOW:
 
     flow = FLOW[node]
 
-    answered = len(st.session_state.answers)
+    answered = sum(
+        1 for x in st.session_state.answers
+        if x in st.session_state.question_path
+    )
 
-    total_questions = 11
+    total_questions = len(st.session_state.question_path)
 
-    progress = min(answered / total_questions, 1)
+    if total_questions > 0:
+        progress = min(answered / total_questions, 1)
+    else:
+        progress = 0
 
     st.progress(progress)
+    current = min(answered + 1, total_questions)
+
+    st.caption(f"Domanda {current} di {total_questions}")
 
     st.caption("Compilazione questionario clinico")
 
@@ -453,8 +560,32 @@ elif node in FLOW:
     st.markdown(f"<div class='question'>{flow['question']}</div>", unsafe_allow_html=True)
 
     # INPUT
-    if flow.get("type") == "radio":
-        answer = st.radio("", flow.get("options", []), key=node)
+    if flow.get("type") == "multiselect":
+
+        answer = []
+
+        st.caption("Seleziona uno o due motivi principali della visita")
+
+        for option in flow.get("options", []):
+
+            if st.checkbox(
+                    option,
+                    key=f"{node}_{option}"
+            ):
+                answer.append(option)
+
+        if len(answer) > flow.get("max_selections", 2):
+            st.warning("Puoi selezionare massimo 2 problemi.")
+            answer = answer[:2]
+
+
+    elif flow.get("type") == "radio":
+
+        answer = st.radio(
+            "",
+            flow.get("options", []),
+            key=node
+        )
 
 
     elif flow.get("type") == "slider":
@@ -527,10 +658,54 @@ elif node in FLOW:
             "answer": answer
         }
 
-        if next_n not in FLOW and next_n != "completed":
-            next_n = "med_5"
+        # SCELTA PROBLEMI
+        if node == "root":
 
-        st.session_state.node = next_n
+            if len(answer) > 2:
+                st.error("Puoi selezionare massimo 2 problemi.")
+                st.stop()
+
+            percorso = []
+
+            for problema in answer:
+
+                if problema in PROBLEM_MAP:
+                    percorso.extend(PROBLEM_MAP[problema])
+
+            # elimina duplicati mantenendo ordine
+            percorso = list(dict.fromkeys(percorso))
+
+            # aggiunge anamnesi medica finale
+            percorso.extend([
+                "med_1",
+                "med_2",
+                "med_5",
+                "med_12",
+                "med_13",
+                "med_14",
+                "med_15",
+                "med_16"
+            ])
+
+            st.session_state.question_path = percorso
+
+            st.session_state.node = percorso[0]
+
+
+        else:
+
+            if node in st.session_state.question_path:
+
+                posizione = st.session_state.question_path.index(node)
+
+                if posizione + 1 < len(st.session_state.question_path):
+                    st.session_state.node = st.session_state.question_path[posizione + 1]
+                else:
+                    st.session_state.node = "completed"
+
+            else:
+                st.session_state.node = next_n
+
         st.rerun()
 
 else:

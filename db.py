@@ -124,10 +124,18 @@ def insert_request(
         ai_report_json = str(ai_report)
 
     symptoms = ""
+
     if isinstance(answers, dict):
+
         root = answers.get("root", {})
+
         if isinstance(root, dict):
+
             symptoms = root.get("answer", "")
+
+            if isinstance(symptoms, list):
+                symptoms = ", ".join(symptoms)
+
         else:
             symptoms = str(root)
 

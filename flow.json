@@ -1,7 +1,8 @@
 {
   "root": {
-  "question": "Quali sono i motivi principali della visita? (puoi selezionare più risposte)",
-  "type": "radio",
+  "question": "Quali sono i motivi principali della visita? (massimo 2)",
+  "type": "multiselect",
+  "max_selections": 2,
   "options": [
   "Dolore",
   "Gonfiore",
