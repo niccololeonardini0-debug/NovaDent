@@ -42,9 +42,6 @@ st.session_state["studio_id"] = studio_id
 with open("flow.json", "r", encoding="utf-8") as f:
     FLOW = json.load(f)
 
-    st.write(FLOW["med_15"])
-    st.stop()
-
 PROBLEM_MAP = {
     "Dolore": [
         "pain_1",
@@ -125,13 +122,9 @@ PROBLEM_MAP = {
         "est_2"
     ],
 
-    "Pulizia dei denti": [
-        "med_15"
-    ],
+    "Pulizia dei denti": [],
 
-    "Controllo": [
-        "med_15"
-    ],
+    "Controllo": [],
 
     "Altro": [
         "med_16"
