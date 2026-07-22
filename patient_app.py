@@ -507,6 +507,10 @@ elif node == "completed":
             priorita=priorita,
             photos = st.session_state.get("photos", [])
         )
+        import os
+
+        st.write("PDF CREATO:", pdf_path)
+        st.write("ESISTE SUBITO:", os.path.exists(pdf_path))
 
         insert_request(
             patient,
