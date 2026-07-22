@@ -1,5 +1,6 @@
 from fpdf import FPDF
 from datetime import datetime
+import os
 
 
 def clean_text(value):
@@ -380,10 +381,21 @@ def genera_pdf(
 
     nome_file = nome_file.replace(" ","_")
 
+    pdf_folder = "uploads/pdfs"
 
-    path = (
+    os.makedirs(
+        pdf_folder,
+        exist_ok=True
+    )
+
+    filename = (
         f"referto_{nome_file}_"
         f"{now.strftime('%Y%m%d%H%M%S')}.pdf"
+    )
+
+    path = os.path.join(
+        pdf_folder,
+        filename
     )
 
     pdf.output(path)
