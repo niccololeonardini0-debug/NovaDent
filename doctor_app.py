@@ -77,6 +77,23 @@ if not requests:
     st.info("Nessuna richiesta presente")
     st.stop()
 
+# =========================
+# RICERCA PAZIENTE
+# =========================
+
+search = st.text_input(
+    "🔎 Cerca paziente",
+    placeholder="Nome e cognome"
+)
+
+if search:
+
+    search = search.lower().strip()
+
+    requests = [
+        r for r in requests
+        if search in f"{r[1]} {r[2]}".lower()
+    ]
 
 # =========================
 # SORT PRIORITY
