@@ -509,9 +509,6 @@ elif node == "completed":
         )
         import os
 
-        st.write("PDF CREATO:", pdf_path)
-        st.write("ESISTE SUBITO:", os.path.exists(pdf_path))
-
         insert_request(
             patient,
             studio_id,
