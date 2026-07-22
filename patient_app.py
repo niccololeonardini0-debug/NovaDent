@@ -42,6 +42,9 @@ st.session_state["studio_id"] = studio_id
 with open("flow.json", "r", encoding="utf-8") as f:
     FLOW = json.load(f)
 
+    st.write(FLOW["med_15"])
+    st.stop()
+
 PROBLEM_MAP = {
     "Dolore": [
         "pain_1",
@@ -672,9 +675,6 @@ elif node in FLOW:
                 if problema in PROBLEM_MAP:
                     percorso.extend(PROBLEM_MAP[problema])
 
-            # elimina duplicati mantenendo ordine
-            percorso = list(dict.fromkeys(percorso))
-
             # aggiunge anamnesi medica finale
             percorso.extend([
                 "med_1",
@@ -686,6 +686,9 @@ elif node in FLOW:
                 "med_15",
                 "med_16"
             ])
+
+            # elimina eventuali duplicati mantenendo l'ordine
+            percorso = list(dict.fromkeys(percorso))
 
             st.session_state.question_path = percorso
 
