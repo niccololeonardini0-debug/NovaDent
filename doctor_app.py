@@ -195,6 +195,10 @@ for r in requests:
             st.success("🟢 PRIORITÀ BASSA")
 
         pdf_path = r[8]
+        st.write("PDF PATH:", pdf_path)
+        import os
+
+        st.write("FILE ESISTE:", os.path.exists(pdf_path))
 
         if pdf_path:
 
