@@ -41,9 +41,14 @@
 },
 
 "pain_4": {
-  "question": "Il dolore aumenta durante la notte?",
+  "question": "Il dolore aumenta durante la notte o durante la masticazione?",
   "type": "radio",
-  "options": ["Sì", "No"],
+  "options": [
+    "No",
+    "Sì, aumenta durante la notte",
+    "Sì, aumenta durante la masticazione",
+    "Sì, aumenta sia di notte che durante la masticazione"
+  ],
   "next": "pain_5"
 },
 
@@ -419,7 +424,7 @@
 },
 
 "med_16": {
-  "question": "C'è qualcosa che vuoi comunicare al dentista?",
+  "question": "C'è qualcosa che vuoi comunicare al dentista? Hai esigenze particolari?",
   "type": "text",
   "next": "completed"
 }

@@ -126,9 +126,7 @@ PROBLEM_MAP = {
 
     "Controllo": [],
 
-    "Altro": [
-        "med_16"
-    ]
+    "Altro": []
 }
 
 def is_last_node(node_id):
