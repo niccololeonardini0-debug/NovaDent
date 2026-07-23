@@ -247,7 +247,7 @@ right:18px;
 font-size:12px;
 opacity:0.4;
 ">
-NovaDent
+NovaDent • Digital Dental Workflow
 </div>
 """,
 unsafe_allow_html=True
