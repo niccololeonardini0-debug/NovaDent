@@ -150,6 +150,14 @@ for r in requests:
     data_richiesta = r[7]
 
     try:
+        data_richiesta = datetime.fromisoformat(
+            str(data_richiesta)
+        ).strftime("%d/%m/%Y %H:%M")
+
+    except:
+        pass
+
+    try:
         ai_report = json.loads(r[6]) if r[6] else {}
 
     except:
@@ -174,12 +182,13 @@ for r in requests:
         with col2:
             st.write("")
 
-        st.caption(f"📅 Richiesta: {data_richiesta}")
+        st.markdown(
+            f"<small>📅 {data_richiesta}</small>",
+            unsafe_allow_html=True
+        )
 
-
-        st.markdown("**🦷 Motivo della visita**")
-        st.write(
-            motivo if motivo else "Non specificato"
+        st.markdown(
+            f"🦷 **{motivo if motivo else 'Non specificato'}**"
         )
 
         if priorita == "ALTA":
