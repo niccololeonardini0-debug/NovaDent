@@ -22,11 +22,17 @@ USERS = [
         "dr-niccolo-leonardini",
         "Dr. Niccolò Leonardini"
     ),
+#    (
+#        "marco.rossi",
+#        "7890",
+#        "dr-marco-rossi",
+#        "Dr. Marco Rossi"
+#    ),
 
 ]
 
-PATIENT_URL = "http://localhost:8501"
-DOCTOR_URL = "http://localhost:8502"
+PATIENT_URL = "https://novadent-js9a9zgvfo9u5lzrwo5b5r.streamlit.app/"
+DOCTOR_URL = "https://novadent-8yqxzxchmfh5z8fk44ychs.streamlit.app/"
 
 conn = get_conn()
 c = conn.cursor()

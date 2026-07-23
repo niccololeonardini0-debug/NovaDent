@@ -147,6 +147,7 @@ for r in requests:
     cognome = r[2]
     eta = r[3]
     motivo = r[4]
+    data_richiesta = r[7]
 
     try:
         ai_report = json.loads(r[6]) if r[6] else {}
@@ -156,7 +157,6 @@ for r in requests:
 
 
     priorita = ai_report.get("priorita", "BASSA")
-    ipotesi = ai_report.get("ipotesi", "Non disponibile")
 
     # =========================
     # CARD PAZIENTE
@@ -164,11 +164,17 @@ for r in requests:
 
     with st.container():
 
-        st.markdown(
-            f"## 👤 {nome} {cognome}"
-        )
+        col1, col2 = st.columns([5, 1])
 
-        st.caption(f"Età: {eta}")
+        with col1:
+            st.markdown(
+                f"**👤 {nome} {cognome}**  ·  {eta} anni"
+            )
+
+        with col2:
+            st.write("")
+
+        st.caption(f"📅 Richiesta: {data_richiesta}")
 
 
         st.markdown("**🦷 Motivo della visita**")
@@ -176,30 +182,40 @@ for r in requests:
             motivo if motivo else "Non specificato"
         )
 
-
-        st.caption(
-            f"🧠 Ipotesi AI: {ipotesi}"
-        )
-
-
         if priorita == "ALTA":
-
-            st.error("🔴 PRIORITÀ ALTA")
+            colore = "#dc2626"
+            testo = "ALTA"
 
         elif priorita == "MEDIA":
-
-            st.warning("🟠 PRIORITÀ MEDIA")
+            colore = "#f59e0b"
+            testo = "MEDIA"
 
         else:
+            colore = "#16a34a"
+            testo = "BASSA"
 
-            st.success("🟢 PRIORITÀ BASSA")
+        st.markdown(
+            f"""
+            <span style="
+                background:{colore};
+                color:white;
+                padding:3px 9px;
+                border-radius:10px;
+                font-size:12px;
+                font-weight:700;
+            ">
+            {testo}
+            </span>
+            """,
+            unsafe_allow_html=True
+        )
 
         pdf_url = r[8]
 
         if pdf_url:
 
             st.link_button(
-                "📄 Apri PDF",
+                "📄 PDF",
                 pdf_url
             )
 
@@ -207,6 +223,7 @@ for r in requests:
 
             st.warning("PDF non disponibile")
 
+    st.divider()
 
 # =========================
 # FOOTER
