@@ -194,26 +194,18 @@ for r in requests:
 
             st.success("🟢 PRIORITÀ BASSA")
 
-        pdf_path = r[8]
+        pdf_url = r[8]
 
-        if pdf_path:
+        if pdf_url:
 
-            import os
+            st.link_button(
+                "📄 Apri PDF",
+                pdf_url
+            )
 
-            try:
+        else:
 
-                with open(pdf_path, "rb") as f:
-
-                    st.download_button(
-                        "📄 Scarica PDF",
-                        f,
-                        file_name=f"referto_{nome}_{cognome}.pdf",
-                        key=f"pdf_{patient_id}"
-                    )
-
-            except:
-
-                st.warning("PDF non disponibile")
+            st.warning("PDF non disponibile")
 
 
 # =========================
