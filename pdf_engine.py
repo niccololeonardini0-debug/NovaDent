@@ -1,7 +1,7 @@
 from fpdf import FPDF
 from datetime import datetime
 import os
-
+from supabase_storage import upload_pdf
 
 def clean_text(value):
 
@@ -402,4 +402,11 @@ def genera_pdf(
 
     print("PDF CREATO:", path)
 
-    return path
+    url_pdf = upload_pdf(
+        path,
+        filename
+    )
+
+    print("PDF ONLINE:", url_pdf)
+
+    return url_pdf
