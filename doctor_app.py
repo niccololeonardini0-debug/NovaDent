@@ -166,73 +166,49 @@ for r in requests:
 
     priorita = ai_report.get("priorita", "BASSA")
 
+    ipotesi = ai_report.get("ipotesi", "—")
+
     # =========================
-    # CARD PAZIENTE
+    # CARD PAZIENTE COMPATTA
     # =========================
 
-    with st.container():
+    pdf_url = r[8]
 
-        col1, col2 = st.columns([5, 1])
+    if priorita == "ALTA":
+        badge = "🔴 ALTA"
 
-        with col1:
-            st.markdown(
-                f"**👤 {nome} {cognome}**  ·  {eta} anni"
-            )
+    elif priorita == "MEDIA":
+        badge = "🟡 MEDIA"
 
-        with col2:
-            st.write("")
+    else:
+        badge = "🟢 BASSA"
 
-        st.markdown(
-            f"<small>📅 {data_richiesta}</small>",
-            unsafe_allow_html=True
-        )
+    col1, col2 = st.columns([6, 1])
 
-        st.markdown(
-            f"🦷 **{motivo if motivo else 'Non specificato'}**"
-        )
-
-        if priorita == "ALTA":
-            colore = "#dc2626"
-            testo = "ALTA"
-
-        elif priorita == "MEDIA":
-            colore = "#f59e0b"
-            testo = "MEDIA"
-
-        else:
-            colore = "#16a34a"
-            testo = "BASSA"
+    with col1:
 
         st.markdown(
             f"""
-            <span style="
-                background:{colore};
-                color:white;
-                padding:3px 9px;
-                border-radius:10px;
-                font-size:12px;
-                font-weight:700;
-            ">
-            {testo}
-            </span>
-            """,
+    **👤 {nome} {cognome} · {eta}a**  {badge}
+
+    🦷 {motivo if motivo else 'Non specificato'}  
+    💡 {ipotesi} · 📅 {data_richiesta}
+    """,
             unsafe_allow_html=True
         )
 
-        pdf_url = r[8]
+    with col2:
 
         if pdf_url:
-
             st.link_button(
-                "📄 PDF",
+                "📄",
                 pdf_url
             )
 
-        else:
-
-            st.warning("PDF non disponibile")
-
-    st.divider()
+    st.markdown(
+        "<hr style='margin:8px 0'>",
+        unsafe_allow_html=True
+    )
 
 # =========================
 # FOOTER
