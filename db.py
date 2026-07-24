@@ -201,14 +201,17 @@ def get_requests(studio_id):
         anamnesis,
         ai_report,
         created_at,
-        pdf_path
+        pdf_path,
+        visitato
     FROM requests
     WHERE studio_id=%s
-    ORDER BY id DESC
+    ORDER BY visitato ASC, created_at DESC
     """, (studio_id,))
 
     data = c.fetchall()
+
     conn.close()
+
     return data
 
 
@@ -324,6 +327,45 @@ def get_doctor_by_studio(studio_id):
     conn.close()
 
     return row[0] if row else None
+
+def mark_as_visited(request_id):
+
+    conn = get_conn()
+    c = conn.cursor()
+
+    c.execute("""
+    UPDATE requests
+    SET visitato=%s,
+        data_visita=%s
+    WHERE id=%s
+    """, (
+        1,
+        datetime.now().isoformat(),
+        request_id
+    ))
+
+    conn.commit()
+    conn.close()
+
+
+def mark_as_not_visited(request_id):
+
+    conn = get_conn()
+    c = conn.cursor()
+
+    c.execute("""
+    UPDATE requests
+    SET visitato=%s,
+        data_visita=%s
+    WHERE id=%s
+    """, (
+        0,
+        None,
+        request_id
+    ))
+
+    conn.commit()
+    conn.close()
 
 
 def create_user(username, password, studio_id, doctor_name):

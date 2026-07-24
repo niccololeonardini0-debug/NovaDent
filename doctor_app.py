@@ -1,5 +1,11 @@
 import streamlit as st
-from db import login, get_requests, init_db
+from db import (
+    login,
+    get_requests,
+    init_db,
+    mark_as_visited,
+    mark_as_not_visited
+)
 import json
 from datetime import datetime
 
@@ -95,44 +101,6 @@ if search:
         if search in f"{r[1]} {r[2]}".lower()
     ]
 
-# =========================
-# SORT PRIORITY
-# =========================
-
-def priority_rank(r):
-
-    try:
-        ai = json.loads(r[6]) if r[6] else {}
-    except:
-        ai = {}
-
-    p = ai.get("priorita", "BASSA")
-
-    if p == "ALTA":
-        return 0
-
-    if p == "MEDIA":
-        return 1
-
-    return 2
-
-
-def get_time(r):
-
-    try:
-        return datetime.fromisoformat(str(r[7]))
-
-    except:
-        return datetime(1970, 1, 1)
-
-
-requests = sorted(
-    requests,
-    key=lambda r: (
-        priority_rank(r),
-        get_time(r)
-    )
-)
 
 
 # =========================
@@ -143,6 +111,8 @@ requests = sorted(
 for r in requests:
 
     patient_id = r[0]
+    visitato = r[9]
+
     nome = r[1]
     cognome = r[2]
     eta = r[3]
@@ -183,7 +153,7 @@ for r in requests:
     else:
         badge = "🟢 BASSA"
 
-    col1, col2 = st.columns([6, 1])
+    col1, col2, col3 = st.columns([5, 1, 1])
 
     with col1:
 
@@ -204,6 +174,28 @@ for r in requests:
                 "📄",
                 pdf_url
             )
+
+    with col3:
+
+        if visitato == 0:
+
+            if st.button(
+                    "✅",
+                    key=f"visit_{patient_id}",
+                    help="Segna come visitato"
+            ):
+                mark_as_visited(patient_id)
+                st.rerun()
+
+        else:
+
+            if st.button(
+                    "↩️",
+                    key=f"unvisit_{patient_id}",
+                    help="Segna come non visitato"
+            ):
+                mark_as_not_visited(patient_id)
+                st.rerun()
 
     st.markdown(
         "<hr style='margin:8px 0'>",

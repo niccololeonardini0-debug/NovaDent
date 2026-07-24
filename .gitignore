@@ -6,3 +6,4 @@ backups/
 back_up.py
 uploads/
 *.pdf
+.streamlit/secrets.toml
